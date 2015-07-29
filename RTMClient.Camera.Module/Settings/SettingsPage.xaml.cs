@@ -23,6 +23,8 @@ namespace RTMClient.Camera.Module.Settings
             set { DataContext = value; }
         }
 
+        private double contentWidth;
+
         public SettingsPage(ISettingsPageViewModel viewModel)
         {
             InitializeComponent();
@@ -45,9 +47,7 @@ namespace RTMClient.Camera.Module.Settings
             Hide();
             e.Handled = true;
         }
-
-        private double contentWidth;
-
+        
         private void SettingsLoaded(object sender, RoutedEventArgs e)
         {
             var flyout = (SettingsFlyout) sender;

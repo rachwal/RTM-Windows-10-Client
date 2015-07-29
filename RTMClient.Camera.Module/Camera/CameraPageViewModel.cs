@@ -37,6 +37,10 @@ namespace RTMClient.Camera.Module.Camera
         public Visibility StartStreamingButtonVisibility { get; set; }
         public Visibility StopStreamingButtonVisibility { get; set; }
 
+        private readonly DisplayInformation displayInformation = DisplayInformation.GetForCurrentView();
+        private readonly DisplayRequest displayRequest = new DisplayRequest();
+        private bool restartingCamera;
+
         public CameraPageViewModel(ICameraController cameraController, IModuleConfiguration moduleConfiguration,
             ICommands moduleCommands)
         {
@@ -50,9 +54,7 @@ namespace RTMClient.Camera.Module.Camera
             configuration.CurrentCameraChanged += OnCurrentCameraChanged;
             configuration.StreamingValueChanged += OnStreamingChanged;
         }
-
-        private readonly DisplayInformation displayInformation = DisplayInformation.GetForCurrentView();
-
+        
         public override async void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
         {
             base.OnNavigatedFrom(viewModelState, suspending);
@@ -79,9 +81,7 @@ namespace RTMClient.Camera.Module.Camera
             controller.SetDisplayOrientationAsync(displayInformation.CurrentOrientation);
             await controller.RotateVideoAsync();
         }
-
-        private readonly DisplayRequest displayRequest = new DisplayRequest();
-
+        
         private async Task StartCameraAsync()
         {
             await controller.InitializeAsync();
@@ -118,9 +118,7 @@ namespace RTMClient.Camera.Module.Camera
             OnPropertyChanged("StartStreamingButtonVisibility");
             OnPropertyChanged("StopStreamingButtonVisibility");
         }
-
-        private bool restartingCamera;
-
+        
         private async void OnCurrentCameraChanged(object sender, Panel e)
         {
             if (restartingCamera)

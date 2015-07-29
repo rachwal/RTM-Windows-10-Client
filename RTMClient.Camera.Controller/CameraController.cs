@@ -24,16 +24,19 @@ namespace RTMClient.Camera.Device
 
         public MediaCapture Source { get; private set; }
 
+        private bool initialized;
+        private Panel CurrentPanel => configuration.CurrentPanel;
+        private bool started;
+        private readonly Guid rotationKey = new Guid("C380465D-2271-428C-9B83-ECEA3B4A85C1");
+        private DisplayOrientations displayOrientation = DisplayOrientations.Portrait;
+
         public CameraController(IModuleConfiguration moduleConfiguration)
         {
             configuration = moduleConfiguration;
 
             configuration.CurrentVideoSizeChanged += OnCurrentVideoSizeChanged;
         }
-
-        private bool initialized;
-        private Panel CurrentPanel => configuration.CurrentPanel;
-
+        
         public async Task InitializeAsync()
         {
             if (Source != null)
@@ -79,9 +82,7 @@ namespace RTMClient.Camera.Device
                 devices.FirstOrDefault(x => x.EnclosureLocation != null && x.EnclosureLocation.Panel == panel);
             return deviceOnPanel ?? devices.FirstOrDefault();
         }
-
-        private bool started;
-
+        
         public async Task StartAsync()
         {
             if (!initialized || started)
@@ -101,10 +102,7 @@ namespace RTMClient.Camera.Device
 
             await RotateVideoAsync();
         }
-
-        private readonly Guid rotationKey = new Guid("C380465D-2271-428C-9B83-ECEA3B4A85C1");
-        private DisplayOrientations displayOrientation = DisplayOrientations.Portrait;
-
+        
         public async Task RotateVideoAsync()
         {
             var angle = GetAngle(displayOrientation);

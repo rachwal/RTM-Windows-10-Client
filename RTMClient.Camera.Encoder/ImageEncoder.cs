@@ -20,6 +20,8 @@ namespace RTMClient.Camera.Encoder
     {
         private readonly IModuleConfiguration configuration;
 
+        private BitmapPropertySet properties;
+
         public ImageEncoder(IModuleConfiguration moduleConfiguration)
         {
             configuration = moduleConfiguration;
@@ -45,7 +47,7 @@ namespace RTMClient.Camera.Encoder
                 encoder.SetSoftwareBitmap(frame.SoftwareBitmap);
                 await encoder.FlushAsync();
                 array = new byte[stream.Size];
-                await stream.ReadAsync(array.AsBuffer(), (uint) stream.Size, InputStreamOptions.None);
+                await stream.ReadAsync(array.AsBuffer(), (uint)stream.Size, InputStreamOptions.None);
             }
 
             return array;
@@ -56,8 +58,6 @@ namespace RTMClient.Camera.Encoder
             var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, stream, properties);
             return encoder;
         }
-
-        private BitmapPropertySet properties;
 
         private BitmapPropertySet CreateBitmapPropertySet()
         {

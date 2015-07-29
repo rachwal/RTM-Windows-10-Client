@@ -16,8 +16,17 @@ namespace RTMClient.Camera.Module.Configuration
     public class ModuleConfiguration : IModuleConfiguration
     {
         public event EventHandler<bool> StreamingValueChanged;
+        public event EventHandler<Panel> CurrentCameraChanged;
+        public event EventHandler SupportedVideoSizesChanged;
+        public event EventHandler CurrentVideoSizeChanged;
+        public event EventHandler VideoQualityChanged;
 
         private bool streaming;
+        private Panel currentPanel = Panel.Back;
+        private IList<VideoEncodingProperties> supportedVideoSizes = new List<VideoEncodingProperties>();
+        private int currentVideoSizeIndex;
+        private Uri hostAddress;
+        private float videoQuality = 0.5f;
 
         public bool Streaming
         {
@@ -28,10 +37,7 @@ namespace RTMClient.Camera.Module.Configuration
                 StreamingValueChanged?.Invoke(this, streaming);
             }
         }
-
-        public event EventHandler<Panel> CurrentCameraChanged;
-        private Panel currentPanel = Panel.Back;
-
+        
         public Panel CurrentPanel
         {
             get { return currentPanel; }
@@ -41,9 +47,7 @@ namespace RTMClient.Camera.Module.Configuration
                 CurrentCameraChanged?.Invoke(this, currentPanel);
             }
         }
-
-        private IList<VideoEncodingProperties> supportedVideoSizes = new List<VideoEncodingProperties>();
-
+        
         public IList<VideoEncodingProperties> SupportedVideoSizes
         {
             get { return supportedVideoSizes; }
@@ -53,10 +57,7 @@ namespace RTMClient.Camera.Module.Configuration
                 SupportedVideoSizesChanged?.Invoke(this, EventArgs.Empty);
             }
         }
-
-        public event EventHandler SupportedVideoSizesChanged;
-        private int currentVideoSizeIndex;
-
+        
         public int CurrentVideoSizeIndex
         {
             get { return currentVideoSizeIndex; }
@@ -68,11 +69,7 @@ namespace RTMClient.Camera.Module.Configuration
         }
 
         public VideoEncodingProperties CurrentVideoSize => SupportedVideoSizes[CurrentVideoSizeIndex];
-        public event EventHandler CurrentVideoSizeChanged;
-
-        private Uri hostAddress;
-        private float videoQuality = 0.5f;
-
+       
         public Uri HostAddress
         {
             get
@@ -96,9 +93,7 @@ namespace RTMClient.Camera.Module.Configuration
                 hostAddress = value;
             }
         }
-
-        public event EventHandler VideoQualityChanged;
-
+        
         public float VideoQuality
         {
             get { return videoQuality; }

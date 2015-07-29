@@ -18,6 +18,12 @@ namespace RTMClient.Camera.Module.Settings
     {
         private readonly IModuleConfiguration configuration;
 
+        public event EventHandler<SettingsValidationArgs> PortValidation;
+
+        private bool hightQualityVideo;
+        private bool mediumQualityVideo = true;
+        private bool lowQualityVideo;
+
         public SettingsPageViewModel(IModuleConfiguration moduleConfiguration)
         {
             configuration = moduleConfiguration;
@@ -53,8 +59,6 @@ namespace RTMClient.Camera.Module.Settings
             set { configuration.CurrentVideoSizeIndex = value; }
         }
 
-        private bool hightQualityVideo;
-
         public bool HighQualityVideo
         {
             get { return hightQualityVideo; }
@@ -72,9 +76,7 @@ namespace RTMClient.Camera.Module.Settings
                 LowQualityVideo = false;
             }
         }
-
-        private bool mediumQualityVideo = true;
-
+        
         public bool MediumQualityVideo
         {
             get { return mediumQualityVideo; }
@@ -92,9 +94,7 @@ namespace RTMClient.Camera.Module.Settings
                 LowQualityVideo = false;
             }
         }
-
-        private bool lowQualityVideo;
-
+        
         public bool LowQualityVideo
         {
             get { return lowQualityVideo; }
@@ -118,9 +118,7 @@ namespace RTMClient.Camera.Module.Settings
             get { return configuration.HostAddress?.Host ?? "Enter Host Address"; }
             set { configuration.HostAddress = new Uri($"http://{value}:{Port}"); }
         }
-
-        public event EventHandler<SettingsValidationArgs> PortValidation;
-
+        
         public int Port
         {
             get { return configuration.HostAddress?.Port ?? 9000; }
