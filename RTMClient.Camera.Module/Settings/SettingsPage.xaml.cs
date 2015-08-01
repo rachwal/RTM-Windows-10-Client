@@ -2,8 +2,8 @@
 // RTMClient.Camera.Module
 // SettingsPage.xaml.cs
 // 
-// Created by Bartosz Rachwal.
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved.
+// Created by Bartosz Rachwal. 
+// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
 using Windows.System;
@@ -24,6 +24,7 @@ namespace RTMClient.Camera.Module.Settings
         }
 
         private double contentWidth;
+        private ComboBox videoSizes;
 
         public SettingsPage(ISettingsPageViewModel viewModel)
         {
@@ -47,7 +48,7 @@ namespace RTMClient.Camera.Module.Settings
             Hide();
             e.Handled = true;
         }
-        
+
         private void SettingsLoaded(object sender, RoutedEventArgs e)
         {
             var flyout = (SettingsFlyout) sender;
@@ -62,9 +63,9 @@ namespace RTMClient.Camera.Module.Settings
 
         private void VideoSizesLoaded(object sender, RoutedEventArgs e)
         {
-            var control = (ComboBox) sender;
-            control.SelectedItem = ViewModel.VideoSizes[ViewModel.CurrentVideoSize];
-            control.Width = contentWidth;
+            videoSizes = (ComboBox) sender;
+            videoSizes.SelectedItem = ViewModel.VideoSizes[ViewModel.CurrentVideoSize];
+            videoSizes.Width = contentWidth;
         }
 
         private void HostTextBoxKeyDown(object sender, KeyRoutedEventArgs e)

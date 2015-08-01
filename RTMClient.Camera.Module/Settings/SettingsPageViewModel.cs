@@ -2,19 +2,21 @@
 // RTMClient.Camera.Module
 // SettingsPageViewModel.cs
 // 
-// Created by Bartosz Rachwal.
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved.
+// Created by Bartosz Rachwal. 
+// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Windows.Devices.Enumeration;
-using Microsoft.Practices.Prism.Mvvm;
+using RTMClient.Camera.Module.Annotations;
 using RTMClient.Camera.Module.Configuration;
 
 namespace RTMClient.Camera.Module.Settings
 {
-    public class SettingsPageViewModel : ViewModel, ISettingsPageViewModel
+    public class SettingsPageViewModel : ISettingsPageViewModel, INotifyPropertyChanged
     {
         private readonly IModuleConfiguration configuration;
 
@@ -31,6 +33,7 @@ namespace RTMClient.Camera.Module.Settings
             configuration.StreamingValueChanged += OnStreamingValueChanged;
             configuration.CurrentCameraChanged += OnCurrentCameraChanged;
             configuration.SupportedVideoSizesChanged += OnSupportedVideoSizesChanged;
+            configuration.CurrentVideoSizeChanged += OnCurrentVideoSizeChanged;
         }
 
         public bool Streaming
@@ -76,7 +79,7 @@ namespace RTMClient.Camera.Module.Settings
                 LowQualityVideo = false;
             }
         }
-        
+
         public bool MediumQualityVideo
         {
             get { return mediumQualityVideo; }
@@ -94,7 +97,7 @@ namespace RTMClient.Camera.Module.Settings
                 LowQualityVideo = false;
             }
         }
-        
+
         public bool LowQualityVideo
         {
             get { return lowQualityVideo; }
@@ -118,13 +121,13 @@ namespace RTMClient.Camera.Module.Settings
             get { return configuration.HostAddress?.Host ?? "Enter Host Address"; }
             set { configuration.HostAddress = new Uri($"http://{value}:{Port}"); }
         }
-        
+
         public int Port
         {
             get { return configuration.HostAddress?.Port ?? 9000; }
             set
             {
-                OnPropertyChanged("Port");
+                OnPropertyChanged(nameof(Port));
 
                 if (value < 0 || value > 65536)
                 {
@@ -139,15 +142,20 @@ namespace RTMClient.Camera.Module.Settings
             }
         }
 
-        private void OnCurrentCameraChanged(object sender, Panel e)
-        {
-            OnPropertyChanged("FrontCameraOn");
-            OnPropertyChanged("BackCameraOn");
-        }
-
         private void OnStreamingValueChanged(object sender, bool e)
         {
-            OnPropertyChanged("Streaming");
+            OnPropertyChanged(nameof(Streaming));
+        }
+
+        private void OnCurrentCameraChanged(object sender, Panel e)
+        {
+            OnPropertyChanged(nameof(FrontCameraOn));
+            OnPropertyChanged(nameof(BackCameraOn));
+        }
+
+        private void OnCurrentVideoSizeChanged(object sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(CurrentVideoSize));
         }
 
         private void OnSupportedVideoSizesChanged(object sender, EventArgs e)
@@ -162,7 +170,15 @@ namespace RTMClient.Camera.Module.Settings
                 VideoSizes.Add(size);
             }
 
-            OnPropertyChanged("VideoSizes");
+            OnPropertyChanged(nameof(VideoSizes));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

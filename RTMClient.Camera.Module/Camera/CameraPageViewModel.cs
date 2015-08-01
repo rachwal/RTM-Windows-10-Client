@@ -2,27 +2,27 @@
 // RTMClient.Camera.Module
 // CameraPageViewModel.cs
 // 
-// Created by Bartosz Rachwal.
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved.
+// Created by Bartosz Rachwal. 
+// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.Graphics.Display;
 using Windows.System.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Microsoft.Practices.Prism.Mvvm;
 using RTMClient.Camera.Device;
+using RTMClient.Camera.Module.Annotations;
 using RTMClient.Camera.Module.Commands;
 using RTMClient.Camera.Module.Configuration;
-using Panel = Windows.Devices.Enumeration.Panel;
 
 namespace RTMClient.Camera.Module.Camera
 {
-    public class CameraPageViewModel : ViewModel
+    public class CameraPageViewModel : ICameraPageViewModel, INotifyPropertyChanged
     {
         private readonly ICameraController controller;
         private readonly IModuleConfiguration configuration;
@@ -39,7 +39,6 @@ namespace RTMClient.Camera.Module.Camera
 
         private readonly DisplayInformation displayInformation = DisplayInformation.GetForCurrentView();
         private readonly DisplayRequest displayRequest = new DisplayRequest();
-        private bool restartingCamera;
 
         public CameraPageViewModel(ICameraController cameraController, IModuleConfiguration moduleConfiguration,
             ICommands moduleCommands)
@@ -51,29 +50,20 @@ namespace RTMClient.Camera.Module.Camera
             configuration = moduleConfiguration;
             commands = moduleCommands;
 
-            configuration.CurrentCameraChanged += OnCurrentCameraChanged;
             configuration.StreamingValueChanged += OnStreamingChanged;
-        }
-        
-        public override async void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
-        {
-            base.OnNavigatedFrom(viewModelState, suspending);
 
-            await StopCameraAsync();
-
-            displayInformation.OrientationChanged -= DisplayInformationOrientationChanged;
+            Application.Current.Resuming += OnResuming;
+            Application.Current.Suspending += OnSuspending;
         }
 
-        public override async void OnNavigatedTo(object navigationParameter, NavigationMode navigationMode,
-            Dictionary<string, object> viewModelState)
+        private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            base.OnNavigatedTo(navigationParameter, navigationMode, viewModelState);
+            StopCamera();
+        }
 
-            controller.SetDisplayOrientationAsync(displayInformation.CurrentOrientation);
-
-            displayInformation.OrientationChanged += DisplayInformationOrientationChanged;
-
-            await StartCameraAsync();
+        private void OnResuming(object sender, object e)
+        {
+            StartCamera();
         }
 
         private async void DisplayInformationOrientationChanged(DisplayInformation sender, object args)
@@ -81,14 +71,14 @@ namespace RTMClient.Camera.Module.Camera
             controller.SetDisplayOrientationAsync(displayInformation.CurrentOrientation);
             await controller.RotateVideoAsync();
         }
-        
+
         private async Task StartCameraAsync()
         {
             await controller.InitializeAsync();
 
             displayRequest.RequestActive();
             CaptureElement.Source = controller.Source;
-
+            OnPropertyChanged(nameof(CaptureElement));
             await controller.StartAsync();
         }
 
@@ -97,6 +87,7 @@ namespace RTMClient.Camera.Module.Camera
             await controller.StopAsync();
 
             CaptureElement.Source = null;
+            OnPropertyChanged(nameof(CaptureElement));
             displayRequest.RequestRelease();
 
             await controller.DeinitializeAsync();
@@ -115,23 +106,32 @@ namespace RTMClient.Camera.Module.Camera
                 StopStreamingButtonVisibility = Visibility.Collapsed;
             }
 
-            OnPropertyChanged("StartStreamingButtonVisibility");
-            OnPropertyChanged("StopStreamingButtonVisibility");
+            OnPropertyChanged(nameof(StartStreamingButtonVisibility));
+            OnPropertyChanged(nameof(StopStreamingButtonVisibility));
         }
-        
-        private async void OnCurrentCameraChanged(object sender, Panel e)
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (restartingCamera)
-            {
-                return;
-            }
-            restartingCamera = true;
-            var streaming = configuration.Streaming;
-            await StopCameraAsync();
-            configuration.Streaming = false;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public async void StartCamera()
+        {
+            controller.SetDisplayOrientationAsync(displayInformation.CurrentOrientation);
+
+            displayInformation.OrientationChanged += DisplayInformationOrientationChanged;
+
             await StartCameraAsync();
-            configuration.Streaming = streaming;
-            restartingCamera = false;
+        }
+
+        public async void StopCamera()
+        {
+            await StopCameraAsync();
+
+            displayInformation.OrientationChanged -= DisplayInformationOrientationChanged;
         }
     }
 }

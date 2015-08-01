@@ -2,10 +2,11 @@
 // RTMClient.Camera.Encoder
 // AssemblyInfo.cs
 // 
-// Created by Bartosz Rachwal.
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved.
+// Created by Bartosz Rachwal. 
+// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -13,10 +14,10 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("RTMClient.Camera.Encoder")]
-[assembly: AssemblyDescription("Created by Bartosz Rachwal")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("The National Institute of Advanced Industrial Science and Technology, Japan")]
-[assembly: AssemblyProduct("RTMClient")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("RTMClient.Camera.Encoder")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

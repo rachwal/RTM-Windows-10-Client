@@ -1,0 +1,39 @@
+﻿<UserControl
+    x:Class="RTMClient.Camera.Module.Settings.SettingsPagePhone"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel  HorizontalAlignment="Stretch">
+
+            <StackPanel>
+                <ToggleSwitch Header = "Video Streaming" IsOn="{Binding Streaming, Mode=TwoWay}" />
+                <ToggleSwitch Margin = "0,16,0,0" Header = "Front Camera" IsOn="{Binding FrontCameraOn, Mode=TwoWay}"/>
+                <ToggleSwitch Margin = "0,16,0,0" Header = "Back Camera" IsOn="{Binding BackCameraOn, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel >
+                <ComboBox Name="VideoSize" Header="Video Size" ItemsSource="{Binding VideoSizes}" />
+            </StackPanel>
+
+            <StackPanel >
+                <TextBlock Margin="0,16,0,0" Text="Video Quality" />
+                <RadioButton Content="High" IsChecked="{Binding HighQualityVideo, Mode=TwoWay}"/>
+                <RadioButton Content="Medium" IsChecked="{Binding MediumQualityVideo, Mode=TwoWay}"/>
+                <RadioButton Content="Low" IsChecked="{Binding LowQualityVideo, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel >
+                <TextBlock  Margin="0,16,0,0" Text="Component Address" />
+                <TextBlock  Margin="0,10,0,0" Text="Host Address" />
+                <TextBox InputScope="Url" Text="{Binding Host, Mode=TwoWay}" PlaceholderText="Enter component address" />
+                <TextBlock  Margin="0,16,0,0" Text="Port" />
+                <TextBox InputScope="Digits" Text="{Binding Port, Mode=TwoWay}" PlaceholderText="Enter port number" />
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

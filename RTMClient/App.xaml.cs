@@ -2,14 +2,15 @@
 // RTMClient
 // App.xaml.cs
 // 
-// Created by Bartosz Rachwal.
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved.
+// Created by Bartosz Rachwal. 
+// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
-using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
-using Microsoft.Practices.Prism.Mvvm;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Microsoft.ApplicationInsights;
 using RTMClient.Camera.Module;
+using RTMClient.Camera.Module.Camera;
 
 namespace RTMClient
 {
@@ -19,37 +20,32 @@ namespace RTMClient
 
         public App()
         {
+            WindowsAppInitializer.InitializeAsync(
+                WindowsCollectors.Metadata |
+                WindowsCollectors.Session);
             InitializeComponent();
         }
 
-        protected override Task OnInitializeAsync(IActivatedEventArgs args)
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            register.Initialize(NavigationService);
-
             register.AddModule<CameraModule>();
 
-            register.StartPage = CameraModule.MainPage;
+            register.SetStartingPage<ICameraPage>();
 
-            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(
-                viewType => register.GetModelViewType(viewType));
+            var rootFrame = Window.Current.Content as Frame;
 
-            return base.OnInitializeAsync(args);
-        }
+            if (rootFrame == null)
+            {
+                rootFrame = new Frame();
 
-        protected override Type GetPageType(string pageToken)
-        {
-            return register.GetPageType(pageToken);
-        }
+                Window.Current.Content = rootFrame;
+            }
 
-        protected override object Resolve(Type type)
-        {
-            return register.Resolve(type);
-        }
+            if (rootFrame.Content == null)
+            {
+            }
 
-        protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
-        {
-            NavigationService.Navigate(register.StartPage, null);
-            return Task.FromResult<object>(null);
+            Window.Current.Activate();
         }
     }
 }

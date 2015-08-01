@@ -2,8 +2,8 @@
 // RTMClient.Camera.Encoder
 // ImageEncoder.cs
 // 
-// Created by Bartosz Rachwal.
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved.
+// Created by Bartosz Rachwal. 
+// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -47,7 +47,7 @@ namespace RTMClient.Camera.Encoder
                 encoder.SetSoftwareBitmap(frame.SoftwareBitmap);
                 await encoder.FlushAsync();
                 array = new byte[stream.Size];
-                await stream.ReadAsync(array.AsBuffer(), (uint)stream.Size, InputStreamOptions.None);
+                await stream.ReadAsync(array.AsBuffer(), (uint) stream.Size, InputStreamOptions.None);
             }
 
             return array;
