@@ -24,15 +24,9 @@ namespace RTMClient.Camera.Module
     public class CameraModule : IModule
     {
         private readonly IUnityContainer container;
-
-        public Dictionary<string, Type> ViewTypes { get; }
-        public Dictionary<Type, Type> ViewModelTypes { get; }
-
+        
         public CameraModule(IUnityContainer unityContainer)
         {
-            ViewTypes = new Dictionary<string, Type>();
-            ViewModelTypes = new Dictionary<Type, Type>();
-
             container = unityContainer;
         }
 

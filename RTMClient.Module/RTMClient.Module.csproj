@@ -114,7 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IModule.cs" />
-    <Compile Include="IViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Properties\RTMClient.Module.rd.xml" />
   </ItemGroup>

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="28fff8c7-2bae-434e-a05f-023cf88a4abf" Publisher="CN=RTM Development Team" Version="1.0.0.0" />
+  <Identity Name="7217OpenRTMDevelopmentTea.RTMClient" Publisher="CN=1BE52404-8D35-4D46-95F0-FE56B62C1F28" Version="1.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="28fff8c7-2bae-434e-a05f-023cf88a4abf" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>RTM Client</DisplayName>
-    <PublisherDisplayName>RTM Development Team</PublisherDisplayName>
+    <PublisherDisplayName>OpenRTM Development Team</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
