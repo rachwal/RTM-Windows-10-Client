@@ -1,5 +1,5 @@
 ﻿// RTMClient
-// RTMClient.Camera.StreamingService
+// RTMClient.Register
 // AssemblyInfo.cs
 // 
 // Created by Bartosz Rachwal. 
@@ -12,11 +12,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("RTMClient.Camera.StreamingService")]
+[assembly: AssemblyTitle("RTMClient.Register")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RTMClient.Camera.StreamingService")]
+[assembly: AssemblyProduct("RTMClient.Register")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

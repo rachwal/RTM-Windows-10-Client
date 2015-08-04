@@ -99,14 +99,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ApplicationRegister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="RTMClient_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-100.png" />
@@ -153,6 +151,14 @@
     <ProjectReference Include="..\RTMClient.Module\RTMClient.Module.csproj">
       <Project>{9746f648-db44-4b44-a501-d4c5fd6b33ab}</Project>
       <Name>RTMClient.Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RTMClient.Navigation\RTMClient.Navigation.csproj">
+      <Project>{25c85156-1103-42b6-b109-801a906f3a70}</Project>
+      <Name>RTMClient.Navigation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RTMClient.Register\RTMClient.Register.csproj">
+      <Project>{019d0294-7f25-4fa6-8ac9-2789c76aa140}</Project>
+      <Name>RTMClient.Register</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

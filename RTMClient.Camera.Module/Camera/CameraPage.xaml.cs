@@ -5,10 +5,6 @@
 // Created by Bartosz Rachwal. 
 // Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
-using System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
-
 namespace RTMClient.Camera.Module.Camera
 {
     public sealed partial class CameraPage : ICameraPage
@@ -27,24 +23,14 @@ namespace RTMClient.Camera.Module.Camera
             Unloaded += OnUnloaded;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            ViewModel.StartCamera();
-        }
-
-        private void OnUnloaded(object sender, RoutedEventArgs e)
+        private void OnUnloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.StopCamera();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void OnLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.StartCamera();
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            ViewModel.StopCamera();
         }
     }
 }

@@ -10,26 +10,24 @@ using Windows.Devices.Enumeration;
 using RTMClient.Camera.Module.About;
 using RTMClient.Camera.Module.Configuration;
 using RTMClient.Camera.Module.Settings;
+using RTMClient.Navigation;
 
 namespace RTMClient.Camera.Module.Commands
 {
     public class CameraModuleCommands : ICommands
     {
         private readonly IModuleConfiguration configuration;
-        private readonly ISettingsPage settings;
-        private readonly IAboutPage about;
+        private readonly INavigationService service;
 
-        public CameraModuleCommands(IModuleConfiguration moduleConfiguration, ISettingsPage settingsPage,
-            IAboutPage aboutPage)
+        public CameraModuleCommands(IModuleConfiguration moduleConfiguration, INavigationService navigationService)
         {
+            service = navigationService;
             configuration = moduleConfiguration;
-            settings = settingsPage;
-            about = aboutPage;
         }
 
         public ICommand ShowAbout()
         {
-            return new CameraModuleCommand(() => { });
+            return new CameraModuleCommand(() => { service.Navigate<IAboutPage>(); });
         }
 
         public ICommand ChangeCamera()
@@ -50,7 +48,7 @@ namespace RTMClient.Camera.Module.Commands
 
         public ICommand OpenSettings()
         {
-            return new CameraModuleCommand(() => { });
+            return new CameraModuleCommand(() => { service.Navigate<ISettingsPage>(); });
         }
 
         public ICommand StartStreaming()

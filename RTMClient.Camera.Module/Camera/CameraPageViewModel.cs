@@ -9,7 +9,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel;
 using Windows.Graphics.Display;
 using Windows.System.Display;
 using Windows.UI.Xaml;
@@ -37,33 +36,57 @@ namespace RTMClient.Camera.Module.Camera
         public Visibility StartStreamingButtonVisibility { get; set; }
         public Visibility StopStreamingButtonVisibility { get; set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private readonly DisplayInformation displayInformation = DisplayInformation.GetForCurrentView();
         private readonly DisplayRequest displayRequest = new DisplayRequest();
+        private bool shouldResume;
+        private bool changingCamera;
 
         public CameraPageViewModel(ICameraController cameraController, IModuleConfiguration moduleConfiguration,
             ICommands moduleCommands)
         {
-            StartStreamingButtonVisibility = Visibility.Visible;
-            StopStreamingButtonVisibility = Visibility.Collapsed;
-
             controller = cameraController;
             configuration = moduleConfiguration;
             commands = moduleCommands;
 
             configuration.StreamingValueChanged += OnStreamingChanged;
 
-            Application.Current.Resuming += OnResuming;
-            Application.Current.Suspending += OnSuspending;
+            UpdateStreamingButtons(configuration.Streaming);
+
+            Window.Current.VisibilityChanged += OnVisibilityChanged;
         }
 
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnCurrentCameraChanged(object sender, Windows.Devices.Enumeration.Panel e)
         {
-            StopCamera();
+            if (changingCamera)
+            {
+                return;
+            }
+            changingCamera = true;
+            await StopCamera();
+            await StartCamera();
+            changingCamera = false;
         }
 
-        private void OnResuming(object sender, object e)
+        public async Task StartCamera()
         {
-            StartCamera();
+            controller.SetDisplayOrientationAsync(displayInformation.CurrentOrientation);
+
+            displayInformation.OrientationChanged += DisplayInformationOrientationChanged;
+
+            await StartCameraAsync();
+
+            configuration.CurrentCameraChanged += OnCurrentCameraChanged;
+        }
+
+        public async Task StopCamera()
+        {
+            configuration.CurrentCameraChanged -= OnCurrentCameraChanged;
+
+            await StopCameraAsync();
+
+            displayInformation.OrientationChanged -= DisplayInformationOrientationChanged;
         }
 
         private async void DisplayInformationOrientationChanged(DisplayInformation sender, object args)
@@ -75,7 +98,6 @@ namespace RTMClient.Camera.Module.Camera
         private async Task StartCameraAsync()
         {
             await controller.InitializeAsync();
-
             displayRequest.RequestActive();
             CaptureElement.Source = controller.Source;
             OnPropertyChanged(nameof(CaptureElement));
@@ -85,15 +107,18 @@ namespace RTMClient.Camera.Module.Camera
         private async Task StopCameraAsync()
         {
             await controller.StopAsync();
-
             CaptureElement.Source = null;
             OnPropertyChanged(nameof(CaptureElement));
             displayRequest.RequestRelease();
-
             await controller.DeinitializeAsync();
         }
 
         private void OnStreamingChanged(object sender, bool streaming)
+        {
+            UpdateStreamingButtons(streaming);
+        }
+
+        private void UpdateStreamingButtons(bool streaming)
         {
             if (streaming)
             {
@@ -110,28 +135,28 @@ namespace RTMClient.Camera.Module.Camera
             OnPropertyChanged(nameof(StopStreamingButtonVisibility));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private async void OnVisibilityChanged(object sender, Windows.UI.Core.VisibilityChangedEventArgs e)
+        {
+            if (e.Visible == false)
+            {
+                shouldResume = true;
+                await StopCamera();
+            }
+            else
+            {
+                if (!shouldResume)
+                {
+                    return;
+                }
+                await StartCamera();
+                shouldResume = false;
+            }
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public async void StartCamera()
-        {
-            controller.SetDisplayOrientationAsync(displayInformation.CurrentOrientation);
-
-            displayInformation.OrientationChanged += DisplayInformationOrientationChanged;
-
-            await StartCameraAsync();
-        }
-
-        public async void StopCamera()
-        {
-            await StopCameraAsync();
-
-            displayInformation.OrientationChanged -= DisplayInformationOrientationChanged;
         }
     }
 }

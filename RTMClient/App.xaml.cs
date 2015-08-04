@@ -7,16 +7,18 @@
 
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Microsoft.ApplicationInsights;
+using Microsoft.Practices.Unity;
 using RTMClient.Camera.Module;
 using RTMClient.Camera.Module.Camera;
+using RTMClient.Navigation;
+using RTMClient.Register;
 
 namespace RTMClient
 {
     sealed partial class App
     {
-        private readonly ApplicationRegister register = new ApplicationRegister();
+        private static readonly IUnityContainer container = new UnityContainer();
 
         public App()
         {
@@ -28,24 +30,21 @@ namespace RTMClient
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            register.AddModule<CameraModule>();
+            container.RegisterType<INavigationService, NavigationService>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IApplicationRegister, ApplicationRegister>(new ContainerControlledLifetimeManager());
 
-            register.SetStartingPage<ICameraPage>();
+            AddModules();
 
-            var rootFrame = Window.Current.Content as Frame;
-
-            if (rootFrame == null)
-            {
-                rootFrame = new Frame();
-
-                Window.Current.Content = rootFrame;
-            }
-
-            if (rootFrame.Content == null)
-            {
-            }
-
+            container.Resolve<INavigationService>().Navigate<ICameraPage>();
             Window.Current.Activate();
+            base.OnLaunched(e);
+        }
+
+        private void AddModules()
+        {
+            var register = container.Resolve<IApplicationRegister>();
+
+            register.AddModule<CameraModule>();
         }
     }
 }

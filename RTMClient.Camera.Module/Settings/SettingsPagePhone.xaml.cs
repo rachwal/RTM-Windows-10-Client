@@ -6,8 +6,6 @@
 // Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
-using Windows.Foundation.Metadata;
-using Windows.Phone.UI.Input;
 using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
@@ -19,17 +17,58 @@ namespace RTMClient.Camera.Module.Settings
 {
     public sealed partial class SettingsPagePhone : ISettingsPage
     {
+        private ISettingsPageViewModel ViewModel
+        {
+            get { return (ISettingsPageViewModel) DataContext; }
+            set { DataContext = value; }
+        }
+
         public SettingsPagePhone(ISettingsPageViewModel viewModel)
         {
             InitializeComponent();
-            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            {
-                HardwareButtons.BackPressed += OnBackPressed;
-            }
+
+            ViewModel = viewModel;
+            ViewModel.PortValidation += ViewModelPortValidation;
         }
 
-        private void OnBackPressed(object sender, BackPressedEventArgs e)
+        private void VideoSizesLoaded(object sender, RoutedEventArgs e)
         {
+            var videoSizes = (ComboBox) sender;
+            videoSizes.SelectedItem = ViewModel.VideoSizes[ViewModel.CurrentVideoSize];
+            videoSizes.HorizontalAlignment = HorizontalAlignment.Stretch;
+        }
+
+        private async void ViewModelPortValidation(object sender, SettingsValidationArgs e)
+        {
+            if (e.Valid)
+            {
+                return;
+            }
+            var message = new MessageDialog(e.Message);
+            await message.ShowAsync();
+        }
+
+        private void HostTextBoxKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            HideKeyboard(e);
+        }
+
+        private void PortTextBoxKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            HideKeyboard(e);
+        }
+
+        private void HideKeyboard(KeyRoutedEventArgs e)
+        {
+            if (ViewModel.Streaming)
+            {
+                ViewModel.Streaming = false;
+            }
+
+            if (e.Key == VirtualKey.Enter)
+            {
+                InputPane.GetForCurrentView().TryHide();
+            }
         }
     }
 }

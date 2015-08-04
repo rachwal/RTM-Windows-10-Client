@@ -6,14 +6,12 @@
 // Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Display;
 using Windows.Media;
 using Windows.Media.Capture;
-using Windows.Media.MediaProperties;
 using RTMClient.Camera.Module.Configuration;
 
 namespace RTMClient.Camera.Device
@@ -24,11 +22,12 @@ namespace RTMClient.Camera.Device
 
         public MediaCapture Source { get; private set; }
 
-        private bool initialized;
-        private Panel CurrentPanel => configuration.CurrentPanel;
-        private bool started;
         private readonly Guid rotationKey = new Guid("C380465D-2271-428C-9B83-ECEA3B4A85C1");
+        private Panel CurrentPanel => configuration.CurrentPanel;
         private DisplayOrientations displayOrientation = DisplayOrientations.Portrait;
+
+        private volatile bool initialized;
+        private volatile bool started;
 
         public CameraController(IModuleConfiguration moduleConfiguration)
         {
@@ -64,18 +63,7 @@ namespace RTMClient.Camera.Device
             }
 
             var properties = Source.VideoDeviceController.GetAvailableMediaStreamProperties(MediaStreamType.VideoPreview);
-            var supportedProperties = new List<VideoEncodingProperties>();
-
-            foreach (
-                var encodingProperty in
-                    properties.Cast<VideoEncodingProperties>().Where(encodingProperty => !supportedProperties.Any(
-                        e => e.Width == encodingProperty.Width && e.Height == encodingProperty.Height)))
-            {
-                supportedProperties.Add(encodingProperty);
-            }
-
-            configuration.SupportedVideoSizes = supportedProperties;
-            configuration.CurrentVideoSizeIndex = 0;
+            configuration.UpdateSupportedVideoSizes(properties);
         }
 
         private async Task<DeviceInformation> TryGetDeviceInformationFromPanel(Panel panel)

@@ -5,6 +5,7 @@
 // Created by Bartosz Rachwal. 
 // Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,7 +22,7 @@ namespace RTMClient.Camera.Module.Camera
         ICommand ShowAboutCommand { get; }
         Visibility StartStreamingButtonVisibility { get; set; }
         Visibility StopStreamingButtonVisibility { get; set; }
-        void StartCamera();
-        void StopCamera();
+        Task StartCamera();
+        Task StopCamera();
     }
 }

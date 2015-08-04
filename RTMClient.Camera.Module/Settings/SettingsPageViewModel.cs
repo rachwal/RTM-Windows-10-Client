@@ -21,10 +21,12 @@ namespace RTMClient.Camera.Module.Settings
         private readonly IModuleConfiguration configuration;
 
         public event EventHandler<SettingsValidationArgs> PortValidation;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private bool hightQualityVideo;
         private bool mediumQualityVideo = true;
         private bool lowQualityVideo;
+        private IList<string> videoSizes = new List<string>();
 
         public SettingsPageViewModel(IModuleConfiguration moduleConfiguration)
         {
@@ -54,7 +56,20 @@ namespace RTMClient.Camera.Module.Settings
             set { configuration.CurrentPanel = value ? Panel.Back : Panel.Front; }
         }
 
-        public IList<string> VideoSizes { get; } = new List<string>();
+        public IList<string> VideoSizes
+        {
+            get
+            {
+                videoSizes.Clear();
+                foreach (
+                    var size in
+                        configuration.SupportedVideoSizes.Select(videoSize => $"{videoSize.Width}x{videoSize.Height}"))
+                {
+                    videoSizes.Add(size);
+                }
+                return videoSizes;
+            }
+        }
 
         public int CurrentVideoSize
         {
@@ -64,7 +79,7 @@ namespace RTMClient.Camera.Module.Settings
 
         public bool HighQualityVideo
         {
-            get { return hightQualityVideo; }
+            get { return configuration.VideoQuality > 0.5; }
             set
             {
                 hightQualityVideo = value;
@@ -74,7 +89,7 @@ namespace RTMClient.Camera.Module.Settings
                     return;
                 }
 
-                configuration.VideoQuality = 0.5f;
+                configuration.VideoQuality = 0.75f;
                 MediumQualityVideo = false;
                 LowQualityVideo = false;
             }
@@ -82,7 +97,7 @@ namespace RTMClient.Camera.Module.Settings
 
         public bool MediumQualityVideo
         {
-            get { return mediumQualityVideo; }
+            get { return Math.Abs(configuration.VideoQuality - 0.5) < 0.001; }
             set
             {
                 mediumQualityVideo = value;
@@ -100,7 +115,7 @@ namespace RTMClient.Camera.Module.Settings
 
         public bool LowQualityVideo
         {
-            get { return lowQualityVideo; }
+            get { return configuration.VideoQuality < 0.5; }
             set
             {
                 lowQualityVideo = value;
@@ -160,20 +175,8 @@ namespace RTMClient.Camera.Module.Settings
 
         private void OnSupportedVideoSizesChanged(object sender, EventArgs e)
         {
-            VideoSizes.Clear();
-
-            foreach (
-                var size in
-                    configuration.SupportedVideoSizes.Select(
-                        videoSize => $"{videoSize.Width}x{videoSize.Height}"))
-            {
-                VideoSizes.Add(size);
-            }
-
             OnPropertyChanged(nameof(VideoSizes));
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

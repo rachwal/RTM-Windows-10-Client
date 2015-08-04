@@ -5,13 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Width="300">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1">
+    <ScrollViewer Margin="10">
+        <StackPanel>
             <TextBlock TextWrapping="WrapWholeWords" Text="RTM Client allows you to connect to "/>
             <HyperlinkButton Content="RT-Middleware REST API component " NavigateUri="https://github.com/rachwal/RTM-REST-API"/>
             <TextBlock TextWrapping="WrapWholeWords" Text="and steream your web camera video."/>
@@ -19,5 +14,5 @@
             <TextBlock TextWrapping="WrapWholeWords" Text="Created by Bartosz Rachwal."/>
             <TextBlock TextWrapping="WrapWholeWords" Text="Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved."/>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Page>

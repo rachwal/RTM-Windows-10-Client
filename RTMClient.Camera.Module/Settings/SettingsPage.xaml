@@ -36,8 +36,8 @@
                 <TextBox InputScope="Url" Text="{Binding Host, Mode=TwoWay}" PlaceholderText="Enter component address" KeyDown="HostTextBoxKeyDown" />
                 <TextBlock  Margin="0,16,0,0" Text="Port" />
                 <TextBox InputScope="Digits" Text="{Binding Port, Mode=TwoWay}" PlaceholderText="Enter port number" KeyDown="PortTextBoxKeyDown" />
-
             </StackPanel>
+            
         </StackPanel>
     </Grid>
 </SettingsFlyout>

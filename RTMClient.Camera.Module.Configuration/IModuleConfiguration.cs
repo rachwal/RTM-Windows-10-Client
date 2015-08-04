@@ -31,5 +31,7 @@ namespace RTMClient.Camera.Module.Configuration
         float VideoQuality { get; set; }
 
         event EventHandler VideoQualityChanged;
+
+        void UpdateSupportedVideoSizes(IReadOnlyList<IMediaEncodingProperties> properties);
     }
 }

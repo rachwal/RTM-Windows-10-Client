@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.Devices.Enumeration;
 using Windows.Media.MediaProperties;
 using Windows.Storage;
@@ -102,6 +103,39 @@ namespace RTMClient.Camera.Module.Configuration
                 videoQuality = value;
                 VideoQualityChanged?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        public void UpdateSupportedVideoSizes(IReadOnlyList<IMediaEncodingProperties> properties)
+        {
+            var supportedProperties = new List<VideoEncodingProperties>();
+
+            foreach (
+                var encodingProperty in
+                    properties.Cast<VideoEncodingProperties>().Where(encodingProperty => !supportedProperties.Any(
+                        e => e.Width == encodingProperty.Width && e.Height == encodingProperty.Height)))
+            {
+                supportedProperties.Add(encodingProperty);
+            }
+
+            VideoEncodingProperties currentProperties = null;
+
+            if (SupportedVideoSizes.Count > 0)
+            {
+                var oldIndex = CurrentVideoSizeIndex;
+                var oldparam = SupportedVideoSizes[oldIndex];
+
+                foreach (var propertiese in supportedProperties)
+                {
+                    if (propertiese.Width == oldparam.Width && propertiese.Height == oldparam.Height &&
+                        propertiese.Bitrate == oldparam.Bitrate)
+                    {
+                        currentProperties = propertiese;
+                    }
+                }
+            }
+
+            SupportedVideoSizes = supportedProperties;
+            CurrentVideoSizeIndex = currentProperties != null ? supportedProperties.IndexOf(currentProperties) : 0;
         }
     }
 }
