@@ -13,4 +13,14 @@
     <DeviceId>2DDADD82-5910-40E6-894F-17EB5CD463EF</DeviceId>
     <UseEmulator>false</UseEmulator>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <RemoteDebugMachine>192.168.12.8:4020 (DESKTOP-VLNCBSQ)</RemoteDebugMachine>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
+    <DeviceId>8BDF218D-FDBB-4A97-90F9-3AA33B559A92</DeviceId>
+    <UseEmulator>false</UseEmulator>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <RemoteDebugMachine>DESKTOP-BCRQ2SJ</RemoteDebugMachine>
+    <RemoteDebugEnabled>true</RemoteDebugEnabled>
+  </PropertyGroup>
 </Project>

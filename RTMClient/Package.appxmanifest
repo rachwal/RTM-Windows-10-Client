@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="28fff8c7-2bae-434e-a05f-023cf88a4abf" Publisher="CN=barto" Version="1.0.0.0" />
+  <Identity Name="28fff8c7-2bae-434e-a05f-023cf88a4abf" Publisher="CN=RTM Development Team" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="28fff8c7-2bae-434e-a05f-023cf88a4abf" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>RTMClient</DisplayName>
-    <PublisherDisplayName>barto</PublisherDisplayName>
+    <DisplayName>RTM Client</DisplayName>
+    <PublisherDisplayName>RTM Development Team</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -15,7 +15,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="RTMClient.App">
-      <uap:VisualElements DisplayName="RTMClient" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="RTMClient" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="RTM Client" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="RTM Client allows you to connect to RT-Middleware REST API component (https://github.com/rachwal/RTM-REST-API) and steream your web camera video. Created by Bartosz Rachwal. Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved." BackgroundColor="transparent">
+        <uap:LockScreen Notification="badge" BadgeLogo="Assets\BadgeLogo.png" />
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="RTMClient" Square71x71Logo="Assets\Square71x71Logo.png" Square310x310Logo="Assets\Square310x310Logo.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square310x310Logo" />

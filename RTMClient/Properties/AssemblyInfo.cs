@@ -13,11 +13,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("RTMClient")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Created by Bartosz Rachwal")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("The National Institute of Advanced Industrial Science and Technology, Japan")]
 [assembly: AssemblyProduct("RTMClient")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

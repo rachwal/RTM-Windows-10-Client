@@ -32,7 +32,6 @@ namespace RTMClient.Camera.Device
         public CameraController(IModuleConfiguration moduleConfiguration)
         {
             configuration = moduleConfiguration;
-
             configuration.CurrentVideoSizeChanged += OnCurrentVideoSizeChanged;
         }
 
@@ -53,8 +52,7 @@ namespace RTMClient.Camera.Device
 
             try
             {
-                await
-                    Source.InitializeAsync(new MediaCaptureInitializationSettings {VideoDeviceId = deviceInformation.Id});
+                await Source.InitializeAsync(new MediaCaptureInitializationSettings { VideoDeviceId = deviceInformation.Id });
                 initialized = true;
             }
             catch
@@ -97,8 +95,7 @@ namespace RTMClient.Camera.Device
         public async Task RotateVideoAsync()
         {
             var angle = GetAngle(displayOrientation);
-            var mediaEncodingProperties =
-                Source.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview);
+            var mediaEncodingProperties = Source.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview);
             mediaEncodingProperties.Properties.Add(rotationKey, angle);
             await Source.SetEncodingPropertiesAsync(MediaStreamType.VideoPreview, mediaEncodingProperties, null);
         }

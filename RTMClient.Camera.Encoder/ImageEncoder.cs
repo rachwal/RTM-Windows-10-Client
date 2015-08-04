@@ -25,7 +25,6 @@ namespace RTMClient.Camera.Encoder
         public ImageEncoder(IModuleConfiguration moduleConfiguration)
         {
             configuration = moduleConfiguration;
-
             configuration.VideoQualityChanged += OnVideoQualityChanged;
             configuration.StreamingValueChanged += OnStreamingValueChanged;
         }

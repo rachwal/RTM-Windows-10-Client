@@ -48,7 +48,7 @@ namespace RTMClient.Camera.WebClient
 
                 await httpClient.SendRequestAsync(msg).AsTask();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 configuration.Streaming = false;
             }

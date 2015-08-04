@@ -6,7 +6,6 @@
     BackClick="SettingsPageOnBackClick" 
     Background="#C000"
     Loaded="SettingsLoaded">
-    
     <Grid Loaded="GridLoaded">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -18,18 +17,15 @@
                 <ToggleSwitch Margin = "0,16,0,0" Header = "Front Camera" IsOn="{Binding FrontCameraOn, Mode=TwoWay}"/>
                 <ToggleSwitch Margin = "0,16,0,0" Header = "Back Camera" IsOn="{Binding BackCameraOn, Mode=TwoWay}"/>
             </StackPanel>
-
             <StackPanel >
                 <ComboBox Header="Video Size" ItemsSource="{Binding VideoSizes}" SelectedIndex="{Binding CurrentVideoSize, Mode=TwoWay}"  Loaded="VideoSizesLoaded"/>
             </StackPanel>
-
             <StackPanel >
                 <TextBlock Margin="0,16,0,0" Text="Video Quality" />
                 <RadioButton Content="High" IsChecked="{Binding HighQualityVideo, Mode=TwoWay}"/>
                 <RadioButton Content="Medium" IsChecked="{Binding MediumQualityVideo, Mode=TwoWay}"/>
                 <RadioButton Content="Low" IsChecked="{Binding LowQualityVideo, Mode=TwoWay}"/>
             </StackPanel>
-
             <StackPanel >
                 <TextBlock  Margin="0,16,0,0" Text="Component Address" />
                 <TextBlock  Margin="0,10,0,0" Text="Host Address" />
@@ -37,7 +33,6 @@
                 <TextBlock  Margin="0,16,0,0" Text="Port" />
                 <TextBox InputScope="Digits" Text="{Binding Port, Mode=TwoWay}" PlaceholderText="Enter port number" KeyDown="PortTextBoxKeyDown" />
             </StackPanel>
-            
         </StackPanel>
     </Grid>
 </SettingsFlyout>

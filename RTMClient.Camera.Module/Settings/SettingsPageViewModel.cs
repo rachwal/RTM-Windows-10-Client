@@ -23,15 +23,14 @@ namespace RTMClient.Camera.Module.Settings
         public event EventHandler<SettingsValidationArgs> PortValidation;
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private readonly IList<string> videoSizes = new List<string>();
         private bool hightQualityVideo;
         private bool mediumQualityVideo = true;
         private bool lowQualityVideo;
-        private IList<string> videoSizes = new List<string>();
-
+       
         public SettingsPageViewModel(IModuleConfiguration moduleConfiguration)
         {
             configuration = moduleConfiguration;
-
             configuration.StreamingValueChanged += OnStreamingValueChanged;
             configuration.CurrentCameraChanged += OnCurrentCameraChanged;
             configuration.SupportedVideoSizesChanged += OnSupportedVideoSizesChanged;
@@ -61,9 +60,7 @@ namespace RTMClient.Camera.Module.Settings
             get
             {
                 videoSizes.Clear();
-                foreach (
-                    var size in
-                        configuration.SupportedVideoSizes.Select(videoSize => $"{videoSize.Width}x{videoSize.Height}"))
+                foreach (var size in configuration.SupportedVideoSizes.Select(videoSize => $"{videoSize.Width}x{videoSize.Height}"))
                 {
                     videoSizes.Add(size);
                 }

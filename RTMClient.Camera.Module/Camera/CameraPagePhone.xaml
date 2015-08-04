@@ -10,7 +10,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
         <CommandBar Grid.Row="0">
             <AppBarButton Label="Change camera" Icon="RotateCamera" Command="{Binding ChangeCameraCommand}"/>
             <AppBarSeparator/>

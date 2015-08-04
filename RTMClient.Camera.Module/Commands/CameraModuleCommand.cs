@@ -12,7 +12,7 @@ namespace RTMClient.Camera.Module.Commands
 {
     public class CameraModuleCommand : ICommand
     {
-        private Action action;
+        private readonly Action action;
 
         public CameraModuleCommand(Action action)
         {
