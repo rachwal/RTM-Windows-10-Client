@@ -7,20 +7,23 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="0">
-            <AppBarButton Label="Change camera" Icon="RotateCamera" Command="{Binding ChangeCameraCommand}"/>
-            <AppBarSeparator/>
-            <AppBarButton Label="Start streaming" Icon="Play" Command="{Binding StartStreamingCommand}" Visibility="{Binding StartStreamingButtonVisibility}"/>
-            <AppBarButton Label="Stop streaming" Icon="Stop" Command="{Binding StopStreamingCommand}" Visibility="{Binding StopStreamingButtonVisibility}"/>
-            <AppBarSeparator/>
+            <AppBarButton Label="Change camera" Icon="RotateCamera" Command="{Binding ChangeCameraCommand}" />
+            <AppBarSeparator />
+            <AppBarButton Label="Start streaming" Icon="Play" Command="{Binding StartStreamingCommand}"
+                          Visibility="{Binding StartStreamingButtonVisibility}" />
+            <AppBarButton Label="Stop streaming" Icon="Stop" Command="{Binding StopStreamingCommand}"
+                          Visibility="{Binding StopStreamingButtonVisibility}" />
+            <AppBarSeparator />
             <AppBarButton Label="Settings" Icon="Setting" Command="{Binding OpenSettingsCommand}" />
-            <AppBarSeparator/>
-            <AppBarButton Label="About" Icon="Help" Command="{Binding ShowAboutCommand}"/>
-            <AppBarSeparator/>
+            <AppBarSeparator />
+            <AppBarButton Label="About" Icon="Help" Command="{Binding ShowAboutCommand}" />
+            <AppBarSeparator />
         </CommandBar>
-        <ContentControl Grid.Row="1" Content="{Binding CaptureElement}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <ContentControl Grid.Row="1" Content="{Binding CaptureElement}" HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" />
     </Grid>
 </Page>

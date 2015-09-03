@@ -3,7 +3,7 @@
 // RTMWebClient.cs
 // 
 // Created by Bartosz Rachwal. 
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
+// Copyright (c) 2015 Bartosz Rachwal. The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
 using System.Threading.Tasks;
@@ -16,9 +16,9 @@ namespace RTMClient.Camera.WebClient
     public class RTMWebClient : IWebClient
     {
         private readonly IModuleConfiguration configuration;
+        private readonly HttpMediaTypeHeaderValue contentType = new HttpMediaTypeHeaderValue("application/json");
 
         private readonly HttpClient httpClient = new HttpClient();
-        private readonly HttpMediaTypeHeaderValue contentType = new HttpMediaTypeHeaderValue("application/json");
 
         public RTMWebClient(IModuleConfiguration moduleConfiguration)
         {

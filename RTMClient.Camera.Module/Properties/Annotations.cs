@@ -3,7 +3,7 @@
 // Annotations.cs
 // 
 // Created by Bartosz Rachwal. 
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
+// Copyright (c) 2015 Bartosz Rachwal. The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
 
@@ -1000,12 +1000,12 @@ namespace RTMClient.Camera.Module.Annotations
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class AspTypePropertyAttribute : Attribute
     {
-        public bool CreateConstructorReferences { get; private set; }
-
         public AspTypePropertyAttribute(bool createConstructorReferences)
         {
             CreateConstructorReferences = createConstructorReferences;
         }
+
+        public bool CreateConstructorReferences { get; private set; }
     }
 
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]

@@ -3,10 +3,8 @@
 // CameraModule.cs
 // 
 // Created by Bartosz Rachwal. 
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
+// Copyright (c) 2015 Bartosz Rachwal. The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
-using System;
-using System.Collections.Generic;
 using Microsoft.Practices.Unity;
 using RTMClient.Camera.Device;
 using RTMClient.Camera.Encoder;
@@ -24,7 +22,7 @@ namespace RTMClient.Camera.Module
     public class CameraModule : IModule
     {
         private readonly IUnityContainer container;
-        
+
         public CameraModule(IUnityContainer unityContainer)
         {
             container = unityContainer;

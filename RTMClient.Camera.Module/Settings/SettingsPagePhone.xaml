@@ -6,27 +6,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <ScrollViewer Margin="10">
-        <StackPanel  HorizontalAlignment="Stretch">
+        <StackPanel HorizontalAlignment="Stretch">
             <StackPanel>
-                <ToggleSwitch Header = "Video Streaming" IsOn="{Binding Streaming, Mode=TwoWay}" />
-                <ToggleSwitch Margin = "0,16,0,0" Header = "Front Camera" IsOn="{Binding FrontCameraOn, Mode=TwoWay}"/>
-                <ToggleSwitch Margin = "0,16,0,0" Header = "Back Camera" IsOn="{Binding BackCameraOn, Mode=TwoWay}"/>
+                <ToggleSwitch Header="Video Streaming" IsOn="{Binding Streaming, Mode=TwoWay}" />
+                <ToggleSwitch Margin="0,16,0,0" Header="Front Camera" IsOn="{Binding FrontCameraOn, Mode=TwoWay}" />
+                <ToggleSwitch Margin="0,16,0,0" Header="Back Camera" IsOn="{Binding BackCameraOn, Mode=TwoWay}" />
             </StackPanel>
-            <StackPanel >
-                <ComboBox Header="Video Size" ItemsSource="{Binding VideoSizes}" SelectedIndex="{Binding CurrentVideoSize, Mode=TwoWay}"  Loaded="VideoSizesLoaded"/>
+            <StackPanel>
+                <ComboBox Header="Video Size" ItemsSource="{Binding VideoSizes}"
+                          SelectedIndex="{Binding CurrentVideoSize, Mode=TwoWay}" Loaded="VideoSizesLoaded" />
             </StackPanel>
             <StackPanel>
                 <TextBlock Margin="0,16,0,0" Text="Video Quality" />
-                <RadioButton Content="High" IsChecked="{Binding HighQualityVideo, Mode=TwoWay}"/>
-                <RadioButton Content="Medium" IsChecked="{Binding MediumQualityVideo, Mode=TwoWay}"/>
-                <RadioButton Content="Low" IsChecked="{Binding LowQualityVideo, Mode=TwoWay}"/>
+                <RadioButton Content="High" IsChecked="{Binding HighQualityVideo, Mode=TwoWay}" />
+                <RadioButton Content="Medium" IsChecked="{Binding MediumQualityVideo, Mode=TwoWay}" />
+                <RadioButton Content="Low" IsChecked="{Binding LowQualityVideo, Mode=TwoWay}" />
             </StackPanel>
-            <StackPanel >
-                <TextBlock  Margin="0,16,0,0" Text="Component Address" />
-                <TextBlock  Margin="0,10,0,0" Text="Host Address" />
-                <TextBox InputScope="Url" Text="{Binding Host, Mode=TwoWay}" PlaceholderText="Enter component address" KeyDown="HostTextBoxKeyDown" />
-                <TextBlock  Margin="0,16,0,0" Text="Port" />
-                <TextBox InputScope="Digits" Text="{Binding Port, Mode=TwoWay}" PlaceholderText="Enter port number" KeyDown="PortTextBoxKeyDown" />
+            <StackPanel>
+                <TextBlock Margin="0,16,0,0" Text="Component Address" />
+                <TextBlock Margin="0,10,0,0" Text="Host Address" />
+                <TextBox InputScope="Url" Text="{Binding Host, Mode=TwoWay}" PlaceholderText="Enter component address"
+                         KeyDown="HostTextBoxKeyDown" />
+                <TextBlock Margin="0,16,0,0" Text="Port" />
+                <TextBox InputScope="Digits" Text="{Binding Port, Mode=TwoWay}" PlaceholderText="Enter port number"
+                         KeyDown="PortTextBoxKeyDown" />
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

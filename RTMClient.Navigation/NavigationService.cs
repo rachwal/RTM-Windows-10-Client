@@ -3,7 +3,7 @@
 // NavigationService.cs
 // 
 // Created by Bartosz Rachwal. 
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
+// Copyright (c) 2015 Bartosz Rachwal. The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
 using System.Collections.Generic;
@@ -30,12 +30,6 @@ namespace RTMClient.Navigation
             }
         }
 
-        private void OnBackPressed(object sender, BackPressedEventArgs e)
-        {
-            e.Handled = true;
-            GoBack();
-        }
-
         public void Navigate<T>()
         {
             var page = container.Resolve<T>() as UIElement;
@@ -53,6 +47,12 @@ namespace RTMClient.Navigation
                 history.Add(typeof (T));
                 Window.Current.Content = page;
             }
+        }
+
+        private void OnBackPressed(object sender, BackPressedEventArgs e)
+        {
+            e.Handled = true;
+            GoBack();
         }
 
         private void GoBack()

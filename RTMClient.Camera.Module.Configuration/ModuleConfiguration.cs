@@ -3,7 +3,7 @@
 // ModuleConfiguration.cs
 // 
 // Created by Bartosz Rachwal. 
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
+// Copyright (c) 2015 Bartosz Rachwal. The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
 using System.Collections.Generic;
@@ -16,18 +16,18 @@ namespace RTMClient.Camera.Module.Configuration
 {
     public class ModuleConfiguration : IModuleConfiguration
     {
+        private Panel currentPanel = Panel.Back;
+        private int currentVideoSizeIndex;
+        private Uri hostAddress;
+
+        private volatile bool streaming;
+        private IList<VideoEncodingProperties> supportedVideoSizes = new List<VideoEncodingProperties>();
+        private float videoQuality = 0.5f;
         public event EventHandler<bool> StreamingValueChanged;
         public event EventHandler<Panel> CurrentCameraChanged;
         public event EventHandler SupportedVideoSizesChanged;
         public event EventHandler CurrentVideoSizeChanged;
         public event EventHandler VideoQualityChanged;
-
-        private volatile bool streaming;
-        private Panel currentPanel = Panel.Back;
-        private IList<VideoEncodingProperties> supportedVideoSizes = new List<VideoEncodingProperties>();
-        private int currentVideoSizeIndex;
-        private Uri hostAddress;
-        private float videoQuality = 0.5f;
 
         public bool Streaming
         {

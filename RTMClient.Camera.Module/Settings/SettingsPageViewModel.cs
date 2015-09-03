@@ -3,7 +3,7 @@
 // SettingsPageViewModel.cs
 // 
 // Created by Bartosz Rachwal. 
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
+// Copyright (c) 2015 Bartosz Rachwal. The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
 using System.Collections.Generic;
@@ -20,14 +20,11 @@ namespace RTMClient.Camera.Module.Settings
     {
         private readonly IModuleConfiguration configuration;
 
-        public event EventHandler<SettingsValidationArgs> PortValidation;
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private readonly IList<string> videoSizes = new List<string>();
         private bool hightQualityVideo;
-        private bool mediumQualityVideo = true;
         private bool lowQualityVideo;
-       
+        private bool mediumQualityVideo = true;
+
         public SettingsPageViewModel(IModuleConfiguration moduleConfiguration)
         {
             configuration = moduleConfiguration;
@@ -36,6 +33,10 @@ namespace RTMClient.Camera.Module.Settings
             configuration.SupportedVideoSizesChanged += OnSupportedVideoSizesChanged;
             configuration.CurrentVideoSizeChanged += OnCurrentVideoSizeChanged;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler<SettingsValidationArgs> PortValidation;
 
         public bool Streaming
         {
@@ -60,7 +61,9 @@ namespace RTMClient.Camera.Module.Settings
             get
             {
                 videoSizes.Clear();
-                foreach (var size in configuration.SupportedVideoSizes.Select(videoSize => $"{videoSize.Width}x{videoSize.Height}"))
+                foreach (
+                    var size in
+                        configuration.SupportedVideoSizes.Select(videoSize => $"{videoSize.Width}x{videoSize.Height}"))
                 {
                     videoSizes.Add(size);
                 }

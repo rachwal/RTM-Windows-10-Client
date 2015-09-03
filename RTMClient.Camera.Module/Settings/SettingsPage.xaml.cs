@@ -3,7 +3,7 @@
 // SettingsPage.xaml.cs
 // 
 // Created by Bartosz Rachwal. 
-// Copyright (c) 2015 The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
+// Copyright (c) 2015 Bartosz Rachwal. The National Institute of Advanced Industrial Science and Technology, Japan. All rights reserved. 
 
 using System;
 using Windows.System;
@@ -17,12 +17,6 @@ namespace RTMClient.Camera.Module.Settings
 {
     public sealed partial class SettingsPage : ISettingsPage
     {
-        private ISettingsPageViewModel ViewModel
-        {
-            get { return (ISettingsPageViewModel) DataContext; }
-            set { DataContext = value; }
-        }
-
         private double contentWidth;
         private ComboBox videoSizes;
 
@@ -31,6 +25,12 @@ namespace RTMClient.Camera.Module.Settings
             InitializeComponent();
             ViewModel = viewModel;
             ViewModel.PortValidation += ViewModelPortValidation;
+        }
+
+        private ISettingsPageViewModel ViewModel
+        {
+            get { return (ISettingsPageViewModel) DataContext; }
+            set { DataContext = value; }
         }
 
         private async void ViewModelPortValidation(object sender, SettingsValidationArgs e)
