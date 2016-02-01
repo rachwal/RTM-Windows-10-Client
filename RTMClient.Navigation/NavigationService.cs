@@ -72,6 +72,7 @@ namespace RTMClient.Navigation
             }
             catch (Exception)
             {
+                Application.Current.Exit();
             }
         }
     }
